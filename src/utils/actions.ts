@@ -38,7 +38,10 @@ export async function translate(prevState: any, formData: FormData) {
       ],
     });
 
-    return response.choices[0].message.content;
+    return {
+      original: translationInput,
+      translation: response.choices[0].message.content,
+    };
   } catch (error) {
     console.error(error);
   }
