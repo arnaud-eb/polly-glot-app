@@ -1,19 +1,18 @@
 import { FC } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface TranslationBoxProps {
   text: string;
-  bgColor: string;
-  textColor?: string;
+  className: string;
 }
 
-const TranslationBox: FC<TranslationBoxProps> = ({
-  text,
-  bgColor,
-  textColor = "text-white",
-}) => {
+const TranslationBox: FC<TranslationBoxProps> = ({ text, className }) => {
   return (
     <div
-      className={`px-5 pt-3 pb-6 mb-7 w-full text-xl font-semibold leading-7 ${textColor} ${bgColor} rounded-xl text-center`}
+      className={twMerge(
+        "px-4 py-3 mb-7 w-full text-xl font-semibold leading-7 rounded-xl last:mb-0",
+        className
+      )}
     >
       {text}
     </div>

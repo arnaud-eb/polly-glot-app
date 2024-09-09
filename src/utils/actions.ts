@@ -1,14 +1,20 @@
 "use server";
 
+import { initialState } from "@/Components/Translations";
 import { openai } from "./openai";
 
 export async function translate(prevState: any, formData: FormData) {
   // TODO: use zod to validate the input
   const translationInput = formData.get("translation-input");
   const selectedLanguage = formData.get("language");
+
+  if (!translationInput || typeof translationInput !== "string") {
+    return initialState;
+  }
+
   const prompt = `
   Text to translate: ${translationInput}
-  Language: ${selectedLanguage}
+  Language: ${selectedLanguage || "en"}
   `;
   console.log("translationInput", translationInput);
   console.log("selectedLanguage", selectedLanguage);
@@ -40,9 +46,10 @@ export async function translate(prevState: any, formData: FormData) {
 
     return {
       original: translationInput,
-      translation: response.choices[0].message.content,
+      translation: response.choices[0].message.content || translationInput,
     };
   } catch (error) {
     console.error(error);
+    return initialState;
   }
 }
